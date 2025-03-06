@@ -6,6 +6,7 @@ this script:
 - calculates the cosine similarity and jaccard similarity between a job description and a set of resumes,
 - integrates the two similarity scores to calculate a combined match score for each resume,
 - returns the resume with the highest combined match score.
+- (NEW) displays the 'n' resumes with the highest combined match scores.
 
 follow the comments to understand how it works!
 """
@@ -18,6 +19,7 @@ from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
 from typing import Dict
 from get_resume_text import get_all_texts
+from heapq import nlargest
 import re, nltk
 
 ### DEFINING FUNCTIONS
@@ -95,6 +97,29 @@ def integrated_match_score(resume, jd_embedding, jd_tokens, weight_cosine = 0.6,
 
     return scores
 
+## function to display the resume with the highest combined score
+def display_highest_scorer(all_scores: Dict[str, Dict[str, float]]) -> str:
+    """
+    display the resume with the highest combined score
+    """
+    highest_scorer = max(all_scores, key = lambda x: all_scores[x]['combined_score'])
+    return f"'{highest_scorer}' has the best matching resume, with a score of {all_scores[highest_scorer]['combined_score']}%!\n"
+
+## function to display the 'n' resumes with the highest combined scores
+def display_n_highest_scorers(all_scores: Dict[str, Dict[str, float]], n: int) -> str:
+    """
+    display the 'n' resumes with the highest combined scores
+    """
+    while n > len(all_scores):
+        print("\nNumber of resumes exceeds the total number of resumes available.")
+        n = int(input(f"Enter a number less than or equal to {len(all_scores)}: "))
+
+    top_n = nlargest(n, all_scores, key = lambda x: all_scores[x]['combined_score'])
+
+    print(f"\nTop {n} Best Matching Resumes:")
+    for i in range(n):
+        print(f"{i + 1}. {top_n[i]} - {all_scores[top_n[i]]['combined_score']}% Match")
+
 ### MAIN
 
 ## defining J.D.
@@ -160,10 +185,8 @@ for resume in all_scores: # printing all scores
 Combined Score: {all_scores[resume]['combined_score']}%\n")
 
 ## returning the resume with the highest combined score
-highest_scorer = max(all_scores, key = lambda x: all_scores[x]['combined_score'])
-print(f"'{highest_scorer}' has the best matching resume, with a score of {all_scores[highest_scorer]['combined_score']}%!")
+display_highest_scorer(all_scores)
 
-
-
-## Using the link below, specifically the heapnq method, we can find as many "best matching" resumes as we want.
-# https://www.geeksforgeeks.org/python-program-to-find-second-largest-number-in-a-list/
+## displaying top 'n' resumes with the highest combined scores
+n = int(input("Enter the number of best matching resumes you want to display: "))
+display_n_highest_scorers(all_scores, n)
