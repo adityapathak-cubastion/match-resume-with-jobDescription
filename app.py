@@ -103,7 +103,9 @@ def display_highest_scorer(all_scores: Dict[str, Dict[str, float]]) -> str:
     display the resume with the highest combined score
     """
     highest_scorer = max(all_scores, key = lambda x: all_scores[x]['combined_score'])
-    return f"'{highest_scorer}' has the best matching resume, with a score of {all_scores[highest_scorer]['combined_score']}%!\n"
+    print(f"'{highest_scorer}' has the best matching resume, with a score of {all_scores[highest_scorer]['combined_score']}%!\n")
+    
+    return
 
 ## function to display the 'n' resumes with the highest combined scores
 def display_n_highest_scorers(all_scores: Dict[str, Dict[str, float]], n: int) -> str:
@@ -119,6 +121,8 @@ def display_n_highest_scorers(all_scores: Dict[str, Dict[str, float]], n: int) -
     print(f"\nTop {n} Best Matching Resumes:")
     for i in range(n):
         print(f"{i + 1}. {top_n[i]} - {all_scores[top_n[i]]['combined_score']}% Match")
+    
+    return
 
 ### MAIN
 
