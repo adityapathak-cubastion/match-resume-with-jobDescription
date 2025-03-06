@@ -13,3 +13,9 @@ Well then look no further, and use this simple Python script to automate the fil
 
 ###### Here's an example of the project's working.
 <img src = "https://github.com/adityapathak-cubastion/match-resume-with-jobDescription/blob/main/resumeMatching_example.png">
+
+## Future Scope
+- Developing a frontend interface and connecting a backend database to store resume data
+- Adding Named Entity Recognition (NER) to detect 'required skills' in the job description and improving keyword matching by specifically looking for those skills in resumes
+- Using an LLM to compare the top filtered resumes with the job description to get a detailed understanding of the candidate's strengths and weaknesses
+- Open ended: suggestions are welcome!
